@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos Interactivos - Aspirantes 166</title>
+    <link rel="stylesheet" href="juegos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="main-container">
+        <header class="game-header">
+            <h1><i class="fas fa-gamepad"></i> Centro de Entrenamiento Interactivo</h1>
+            <a href="index.html" class="back-to-main-menu"><i class="fas fa-arrow-left"></i> Volver al Menú Principal</a>
+        </header>
+
+        <!-- Pantalla de Selección de Juego -->
+        <div id="game-selection-screen">
+            <p class="intro-text">Selecciona un módulo para comenzar a practicar.</p>
+            <div class="game-grid">
+                <!-- Las tarjetas de selección de juego se generan aquí -->
+            </div>
+        </div>
+
+        <!-- Pantalla de Juego -->
+        <div id="game-play-screen" style="display: none;">
+            <div class="game-top-bar">
+                <h2 id="game-title">Título del Juego</h2>
+                <div class="game-stats">
+                    <span>Puntaje: <strong id="score">0</strong></span>
+                    <span>Pregunta: <strong id="question-counter">1 / 10</strong></span>
+                </div>
+            </div>
+
+            <div id="challenge-area">
+                <!-- Aquí se mostrará la pregunta o el diálogo -->
+            </div>
+
+            <div id="answer-area">
+                <!-- Aquí irán los botones de opción múltiple, el campo de texto o las opciones de Q-Code -->
+            </div>
+
+            <div id="feedback-area"></div>
+
+            <div class="game-controls">
+                <button id="next-challenge-btn" style="display: none;">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Fin de Juego -->
+        <div id="game-over-screen" style="display: none;">
+            <h2>¡Entrenamiento Finalizado!</h2>
+            <p>Tu puntaje final es:</p>
+            <div id="final-score" class="score-display">0</div>
+            <div class="game-over-buttons">
+                <button id="restart-game-btn">Repetir Módulo</button>
+                <button id="back-to-selection-btn">Elegir otro Módulo</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="juegos.js"></script> <!-- Separamos la lógica a un nuevo archivo JS -->
+</body>
+</html>

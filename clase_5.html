@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 5: Guardia, Instrucción, Servicios</title>
+    <!-- 1. CAMBIA AL NUEVO ARCHIVO DE ESTILOS -->
+    <link rel="stylesheet" href="clase_styles.css">
+</head>
+<body>
+    <!-- 2. AGREGA EL CONTENEDOR PARA EL FONDO -->
+    <div id="particles-js"></div>
+
+    <div class="class-container">
+        
+        <summary>Resumen y Datos Clave (Clase 5: Guardia, Instrucción, Servicios)</summary>
+                <h5>La Guardia</h5>
+                <ul>
+                    <li>Servicio organizado y pasivo para contar con personal en el Cuartel 24/7, los 365 días del año, para aprestamiento inmediato.</li>
+                    <li>Cada institución organiza su sistema, pero requiere afectación generalizada del personal.</li>
+                </ul>
+            
+                <h5>La Instrucción</h5>
+                <ul>
+                    <li>Día y hora preestablecida para que el Cuerpo Activo asista al Cuartel para prácticas, clases de capacitación y entrenamiento permanente.</li>
+                    <li>Objetivo: Mantener un perfecto estado profesional para prestar servicios.</li>
+                </ul>
+            
+                <h5>Los Servicios</h5>
+                <p>Ley Provincial 10.917 (Art. 3°) reconoce el carácter de <strong>servicio público</strong> a las actividades de los Cuerpos de Bomberos Voluntarios.</p>
+                <p>Misión del Cuerpo Activo (Art. 23° Ley 10.917):</p>
+                <ul>
+                    <li>Prevención y extinción de incendios.</li>
+                    <li>Rescate y salvamento de personas y bienes.</li>
+                    <li>Conservación de materiales y equipos.</li>
+                    <li>Información y educación de la comunidad sobre el servicio.</li>
+                    <li>Intervención general en toda acción de su misión.</li>
+                </ul>
+                <p>Clasificación de Servicios (según prontitud/urgencia):</p>
+                <ul>
+                    <li><strong>Servicios de Emergencia:</strong> No admiten dilación. Convocatoria inmediata. Sale a cargo el superior presente.
+                        <ul>
+                            <li>Incendios en General (01)</li>
+                            <li>Incendios Forestales (11)</li>
+                            <li>Auxilios (02)</li>
+                            <li>Desastres (04)</li>
+                            <li>Incidentes con Materiales Peligrosos (10)</li>
+                            <li>Colaboración (a otros Cuerpos en estos tipos de servicio) (05)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Servicios Autorizados:</strong> Se prestan con orden interno preestablecido, autorizaciones y personal idóneo.
+                        <ul>
+                            <li>Especiales (03)</li>
+                            <li>Guardias (06)</li>
+                            <li>Comando (07)</li>
+                            <li>Técnico (08)</li>
+                            <li>Ceremonial (09)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>Jefe de Servicio:</strong> Es el de mayor jerarquía presente en el siniestro, ejerce el mando.</p>
+                <p><strong>Jefe de Dotación:</strong> Superior que viaja en una unidad.</p>
+                <p><strong>Jefe de Fuerzas:</strong> Mayor jerarquía presente cuando salen dos o más unidades o se encuentran en el siniestro.</p>
+            
+                <h5>Definición y Clasificación Detallada de Servicios:</h5>
+                <ul>
+                    <li><strong>01. INCENDIO:</strong> Fuego incontrolable (excluye forestales y MATPEL).</li>
+                    <li><strong>02. AUXILIO:</strong> Hecho (natural, accidental, intencional) que pone en riesgo vidas.</li>
+                    <li><strong>03. ESPECIALES:</strong> No encuadrados, no obligatorios (ej: drizas, desagotes, suministro agua/energía).</li>
+                    <li><strong>04. DESASTRE:</strong> Convocados por Defensa Civil Municipal o Provincial.</li>
+                    <li><strong>05. COLABORACION:</strong> Fuera de jurisdicción, a requerimiento de Cuerpo vecino sobrepasado.</li>
+                    <li><strong>06. GUARDIAS:</strong> Destacamento de personal ante riesgos conocidos o retención en Cuartel para actuación inmediata.</li>
+                    <li><strong>07. COMANDO:</strong> Actividad del Jefe (o designado) representando a la institución ante Poder Público, Federaciones, etc.</li>
+                    <li><strong>08. TECNICO:</strong> Difusión de seguridad, verificación de planos/equipos anti-incendio, informes técnicos.</li>
+                    <li><strong>09. CEREMONIAL:</strong> Participación en actos patrios, aniversarios, desfiles, honores fúnebres.</li>
+                    <li><strong>10. MATERIALES PELIGROSOS (MATPEL):</strong> Hecho con riesgo a vida/bienes/ambiente por materiales peligrosos (con o sin incendio).</li>
+                    <li><strong>11. INCENDIOS FORESTALES:</strong> Fuego descontrolado en vegetales (pastizales, montes, etc.).</li>
+                </ul>
+                <p><em>Resumen basado en "CLASE 5.pdf".</em></p>
+
+        <div class="navigation-buttons">
+            <a href="index.html?evaluar=1" class="nav-button eval-button">Iniciar Evaluación</a>
+            <a href="index.html" class="nav-button menu-button">Volver al Menú</a>
+        </div>
+    </div>
+
+    <!-- 3. AGREGA LOS SCRIPTS PARA EL FONDO ANIMADO -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializa particles.js en esta página
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#ffffff", "#ff4d4d", "#ff6666"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>

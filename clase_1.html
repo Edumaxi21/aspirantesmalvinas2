@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1: Marco Histórico</title>
+    <!-- 1. CAMBIA AL NUEVO ARCHIVO DE ESTILOS -->
+    <link rel="stylesheet" href="clase_styles.css">
+</head>
+<body>
+    <!-- 2. AGREGA EL CONTENEDOR PARA EL FONDO -->
+    <div id="particles-js"></div>
+
+    <div class="class-container">
+        <h4>Marco Histórico Bomberil (Orígenes)</h4>
+                <p>Los primeros antecedentes de organizaciones de bomberos se remontan a la Antigua Roma (año 64 D.C.). Los "Triumviri Nocturni" y "Vigiles" (creados por el emperador Augusto) fueron los encargados de combatir incendios y mantener la seguridad.</p>
+                <ul>
+                    <li><strong>Vigiles se dividían en:</strong> Aquarii (agua), Siphonarii (mantas y bombas), Centones (iluminación), Bocinarii (alarma).</li>
+                    <li>El lema actual de los bomberos en Italia, "Ubi dolor ibi vigiles" ("allí donde hay dolor están los vigilantes"), rinde homenaje a estos pioneros.</li>
+                </ul>
+                <h4>Marco Histórico Nacional (Argentina)</h4>
+                <p>La historia de los Bomberos Voluntarios Argentinos comienza en <strong>1884</strong>, impulsada por la comunidad de inmigrantes italianos en el barrio de La Boca, Buenos Aires. Las viviendas de la época, llamadas "conventillos" (construidas con madera y chapa), eran altamente propensas a incendios.</p>
+                <ul>
+                    <li>Un gran incendio en diciembre de 1883 motivó a <strong>Don Tomás Liberti</strong> y sus hijos (Oreste y Atilio) junto a vecinos a organizarse.</li>
+                    <li>El <strong>2 de junio de 1884</strong> se formó el primer Cuerpo de Bomberos Voluntarios de la República Argentina: "Societa di Pompieri Italiani Volontari di La Boca". Su lema era "Volere è Potere" (Querer es Poder).</li>
+                </ul>
+                <h4>Marco Histórico Institucional (Bomberos Voluntarios Malvinas Argentinas)</h4>
+                <h5>ASOCIACIÓN BOMBEROS VOLUNTARIOS MALVINAS ARGENTINAS</h5>
+                    <img src="imagenes/cuartel central.png" alt="cuartel central" style="width:100%; max-width:300px; height:auto; margin-top:10px; margin-bottom:10px; border-radius:5px;">
+                <ul>
+                    <li><strong>Fundación:</strong> 03 de marzo de 1984.</li>
+                </ul>
+                <h5>CUARTEL CENTRAL "Juan Espina"</h5>
+                <ul>
+                    <li><strong>Nombre del Cuartel Central:</strong> Juan Espina.</li>
+                    <li><strong>Dirección:</strong> Dr. Baroni 2684.</li>
+                    <li><strong>Teléfono:</strong> 4660 - 2222.</li>
+                    <li><strong>Primer Presidente H.C.D.:</strong> Mendez Bernardo.</li>
+                    <li><strong>Primer Jefe C.A.:</strong> Garcia Jose (Legajo 166/001).</li>
+                    <li><strong>Actual Presidente H.C.D.:</strong> Demilio Gabriel.</li>
+                    <li><strong>Actual Jefe C.A.:</strong> Oficial Herrera Andrés.</li>
+                </ul>
+                <h5>DESTACAMENTO N° 1 GRAND BOURG "Dionicio García"</h5>
+                    <img src="imagenes/destacamento 1.png" alt="destacamento 1" style="width:100%; max-width:300px; height:auto; margin-top:10px; margin-bottom:10px; border-radius:5px;">
+                <ul>
+                    <li><strong>Nombre del Destacamento:</strong> Dionicio García.</li>
+                    <li><strong>Fecha de Inauguración:</strong> 23 de Febrero de 1993.</li>
+                    <li><strong>Dirección:</strong> Paso de los Andes 951.</li>
+                    <li><strong>Teléfono:</strong> (02320) 48-1777.</li>
+                    <li><strong>Actual Presidente H.C.D. (Asociación):</strong> Demilio Gabriel.</li>
+                    <li><strong>Actual Jefe C.A. (Asociación):</strong> Oficial Herrera Andrés.</li>
+                    <li><strong>Actual Encargado del Destacamento:</strong> Oficial Paz.</li>
+                </ul>
+                <p><em>Resumen basado en "CLASE 1 MARCO HISTORICO.pdf".</em></p>
+
+        <div class="navigation-buttons">
+            <a href="index.html?evaluar=1" class="nav-button eval-button">Iniciar Evaluación</a>
+            <a href="index.html" class="nav-button menu-button">Volver al Menú</a>
+        </div>
+    </div>
+
+    <!-- 3. AGREGA LOS SCRIPTS PARA EL FONDO ANIMADO -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializa particles.js en esta página
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#ffffff", "#ff4d4d", "#ff6666"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>
