@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Fuego! Entendiendo sus Secretos para la Prevención y Seguridad</title>
+    <!-- Enlace al CDN de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Enlace a Three.js para gráficos 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- OrbitControls para la interacción con la cámara en 3D -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        /* Estilos generales para el tema oscuro */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Fondo oscuro principal */
+            color: #e2e8f0; /* Color de texto claro */
+            line-height: 1.6;
+        }
+        /* Estilos para el encabezado */
+        header {
+            background-color: #2d3748; /* Un tono más claro que el fondo para el encabezado */
+            color: #ffffff;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        /* Contenedor principal de la página */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        /* Estilos para las secciones */
+        section {
+            background-color: #2d3748; /* Fondo oscuro para las secciones */
+            border-radius: 0.75rem; /* Bordes redondeados */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            margin-bottom: 3rem; /* Margen inferior entre secciones */
+            padding: 2.5rem; /* Espaciado interno */
+        }
+        /* Títulos de sección */
+        h2 {
+            font-size: 2.8rem; /* Tamaño de fuente más grande */
+            font-weight: 800; /* Extra bold */
+            color: #fca5a5; /* Rojo claro para los títulos */
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.025em; /* Espaciado de letras */
+        }
+        /* Subtítulos dentro de las secciones */
+        h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #90cdf4; /* Azul claro para subtítulos */
+            margin-bottom: 1.5rem;
+        }
+        /* Títulos de componentes/sub-secciones */
+        h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #a7f3d0; /* Verde claro para sub-subtítulos */
+            margin-bottom: 1rem;
+        }
+        /* Párrafos de texto */
+        p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #cbd5e1; /* Gris claro para el texto principal */
+        }
+        /* Listas */
+        ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #cbd5e1;
+        }
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        /* Estilo para las cajas de ejemplo */
+        .example-box {
+            background-color: #3b4453; /* Fondo oscuro para ejemplos */
+            border-left: 5px solid #63b3ed; /* Borde azul vibrante */
+            color: #e2e8f0;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        .example-box strong {
+            color: #a7f3d0; /* Verde claro para el texto "Ejemplos" */
+        }
+        /* Estilos para enlaces */
+        a {
+            color: #63b3ed; /* Azul claro para enlaces */
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+        }
+        a:hover {
+            color: #90cdf4; /* Un azul más claro al pasar el ratón */
+            text-decoration: underline;
+        }
+        /* Estilos para el pie de página */
+        footer {
+            background-color: #1a202c; /* Mismo fondo que el body */
+            color: #a0aec0; /* Gris medio para el texto del pie de página */
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid #2d3748; /* Borde superior sutil */
+        }
+
+        /* Contenedores para los canvas 3D */
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Altura fija para los canvas */
+            margin: 2rem auto;
+            background-color: #1a202c; /* Fondo del canvas */
+            border-radius: 0.75rem;
+            overflow: hidden; /* Asegura que el contenido 3D no se desborde */
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra interna para efecto de profundidad */
+        }
+        .canvas-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        /* Overlay para las etiquetas de texto en 3D */
+        .label-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite clicks a través del overlay */
+        }
+        .label {
+            position: absolute;
+            background-color: rgba(45, 55, 72, 0.8); /* Fondo semitransparente para etiquetas (inactivo) */
+            color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            transform: translate(-50%, -50%); /* Centra el label */
+            pointer-events: auto; /* Permite interacción con el label */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .label.active {
+            background-color: rgba(252, 165, 165, 0.9); /* Fondo rojo claro cuando está activo */
+            color: #ffffff;
+        }
+        .label:hover {
+            background-color: rgba(60, 70, 85, 0.9);
+            transform: translate(-50%, -50%) scale(1.05); /* Ligeramente más grande al pasar el ratón */
+        }
+        .label.active:hover {
+            background-color: rgba(255, 120, 120, 0.9); /* Rojo más intenso al pasar el ratón sobre un activo */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado de la página -->
+    <header>
+        <div class="container mx-auto text-center px-4">
+            <h1 class="text-5xl font-extrabold mb-2">¡Fuego! Entendiendo sus Secretos</h1>
+            <p class="text-xl">Una guía completa para la prevención y seguridad</p>
+        </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <main>
+
+        <!-- Sección 0: Terminología Básica -->
+        <section id="terminologia-basica">
+            <h2>Terminología Básica de la Física y Química del Fuego</h2>
+            <p>Para comprender a fondo el fenómeno del fuego, es esencial familiarizarse con algunos conceptos fundamentales de la física y la química.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Átomos</h4>
+                    <p>Constituyen las partículas fundamentales de la composición química y sus dimensiones son sumamente reducidas.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Elementos</h4>
+                    <p>Son sustancias formadas por átomos de una sola clase.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Moléculas</h4>
+                    <p>Son el resultado de la combinación de un grupo de átomos.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Reacción Exotérmica</h4>
+                    <p>Toda reacción química que libera energía en forma de calor.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Combustión</h4>
+                    <p>Es una reacción exotérmica que involucra un combustible (en fase condensada o gaseosa), la oxidación del combustible por el oxígeno atmosférico, y la emisión de luz. Es un proceso físico-químico mediante el cual una sustancia (combustible) cede electrones (se oxida) a otra (comburente o agente oxidante), con generación de energía. Es la oxidación rápida de una materia.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Energía Calorífica</h4>
+                    <p>Es la energía producida por las reacciones de oxidación. Fuentes como el calor de combustión o el calentamiento espontáneo son cruciales para entender el inicio de un incendio.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Calor</h4>
+                    <p>Es una forma de energía que se transfiere de un cuerpo a otro debido a una diferencia de temperatura.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Temperatura</h4>
+                    <p>Es la medición del nivel térmico de los diferentes cuerpos, indicando la energía cinética promedio de sus partículas.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Punto de Inflamación (Flash-Point)</h4>
+                    <p>Temperatura mínima en la que una mezcla combustible desprende vapores suficientes para formar una mezcla inflamable con el aire, que se encenderá brevemente al acercarle una fuente de calor externo y se apaga al ser retirada la misma.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Punto de Ignición</h4>
+                    <p>Temperatura mínima en la que una mezcla combustible, con el aporte de una fuente de calor, enciende y se auto sustenta por sí misma con llama continua, sin necesidad de retirar la fuente de ignición.</p>
+                </div>
+            </div>
+            <h3 class="mt-10">Diferencia entre Fuego e Incendio:</h3>
+            <ul>
+                <li><strong>Fuego:</strong> Es una reacción físico-química con desprendimiento de luz y calor. Es el proceso de combustión caracterizado por la emisión de calor acompañado de humo y/o llamas.</li>
+                <li><strong>Incendio:</strong> Es un fuego descontrolado, que se propaga sin control y causa daños.</li>
+            </ul>
+        </section>
+
+        <!-- Sección 1: El Triángulo del Fuego (con 3D interactivo y detalles técnicos) -->
+        <section id="triangulo-fuego">
+            <h2>El Triángulo del Fuego: Los Pilares de la Combustión</h2>
+            <p>El triángulo del fuego representa los tres elementos esenciales que deben estar presentes simultáneamente para que se inicie y mantenga una combustión: <strong>Combustible</strong>, <strong>Comburente (Oxígeno)</strong> y <strong>Calor</strong>. La eliminación de cualquiera de estos elementos detendrá el fuego.</p>
+            <p class="text-center text-lg font-bold text-yellow-300 mb-4">¡Haz clic en los componentes para activar/desactivar y ver cómo afecta al fuego!</p>
+
+            <!-- Contenedor para el canvas 3D del Triángulo del Fuego -->
+            <div class="canvas-container" id="triangulo-canvas-container">
+                <canvas id="triangulo-canvas"></canvas>
+                <div class="label-overlay" id="triangulo-labels"></div>
+            </div>
+
+            <h3>Componentes del Triángulo del Fuego:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>1. Combustible</h4>
+                    <p>Es cualquier material capaz de arder, liberando energía durante la combustión. Su estado físico (sólido, líquido, gaseoso) influye directamente en su comportamiento y en la estrategia de extinción. La <strong>superficie de exposición</strong> y la <strong>volatilidad</strong> son factores críticos.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Madera, papel, gasolina (hidrocarburos), gas natural (metano), plásticos (polímeros), telas.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>2. Comburente (Oxígeno)</h4>
+                    <p>Generalmente es el oxígeno presente en el aire. La combustión es una reacción de oxidación rápida. Para la mayoría de los fuegos, se requiere una concentración mínima de oxígeno del <strong>16%</strong>. Una atmósfera con menos del 10% de O₂ suele ser inerte al fuego.</p>
+                    <div class="example-box">
+                        <strong>Ejemplo:</strong> El aire atmosférico contiene aproximadamente un 21% de oxígeno.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>3. Calor (Energía de Activación)</h4>
+                    <p>Es la energía térmica necesaria para elevar la temperatura del combustible a su <strong>punto de ignición</strong>, iniciando la descomposición térmica (pirólisis en sólidos) o la vaporización (en líquidos), y la posterior reacción con el comburente. La <strong>velocidad de calentamiento</strong> es clave.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Chispa eléctrica, llama abierta, fricción, radiación térmica, cortocircuito, reacciones exotérmicas.
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mt-10">¿Cómo extinguir un incendio basado en el Triángulo del Fuego?</h3>
+            <ul>
+                <li><strong>Eliminación del Combustible (Separación):</strong> Consiste en retirar o aislar el material combustible de la zona de fuego. Técnicas incluyen el cierre de válvulas de gas, la remoción de objetos inflamables o la creación de cortafuegos.</li>
+                <li><strong>Sofocación (Eliminación del Comburente):</strong> Reduce o elimina el suministro de oxígeno al fuego. Esto se logra cubriendo el fuego con una manta ignífuga, utilizando extintores de CO₂ o espuma, o mediante la inundación con gases inertes.</li>
+                <li><strong>Enfriamiento (Eliminación del Calor):</strong> Disminuye la temperatura del combustible por debajo de su punto de ignición. El agente más común es el agua, que absorbe grandes cantidades de calor al convertirse en vapor.</li>
+            </ul>
+        </section>
+
+        <!-- Sección 2: El Tetraedro del Fuego (con 3D interactivo y detalles técnicos) -->
+        <section id="tetraedro-fuego">
+            <h2>Más Allá del Triángulo: El Tetraedro del Fuego</h2>
+            <p>Aunque el triángulo del fuego es un modelo útil, el tetraedro del fuego ofrece una comprensión más completa de la combustión, especialmente para los incendios que se propagan rápidamente. Agrega un cuarto elemento crucial: la <strong>reacción en cadena</strong>.</p>
+            <p class="text-center text-lg font-bold text-yellow-300 mb-4">¡Haz clic en los componentes para activar/desactivar y ver cómo afecta al fuego!</p>
+
+            <!-- Contenedor para el canvas 3D del Tetraedro del Fuego -->
+            <div class="canvas-container" id="tetraedro-canvas-container">
+                <canvas id="tetraedro-canvas"></canvas>
+                <div class="label-overlay" id="tetraedro-labels"></div>
+            </div>
+
+            <h3>Componentes del Tetraedro del Fuego:</h3>
+            <ul>
+                <li><strong>Combustible</strong></li>
+                <li><strong>Comburente (Oxígeno)</strong></li>
+                <li><strong>Calor (Energía de Activación)</strong></li>
+                <li>
+                    <h4>Reacción en Cadena:</h4>
+                    <p>Es el proceso de auto-sostenimiento de la combustión. Una vez que el fuego ha iniciado, se generan <strong>radicales libres</strong> altamente reactivos (átomos o grupos de átomos con electrones no apareados) en la zona de la llama. Estos radicales libres reaccionan rápidamente con el combustible y el oxígeno, formando nuevos radicales libres y liberando más calor, lo que perpetúa la combustión de manera exponencial.</p>
+                    <div class="example-box">
+                        <strong>Analogía:</strong> Imagina una fila de dominós: una vez que el primero cae, el resto lo sigue en cadena, sin necesidad de una fuerza externa adicional.
+                    </div>
+                </li>
+            </ul>
+
+            <h3 class="mt-10">¿Por qué es importante el Tetraedro del Fuego?</h3>
+            <p>El concepto del tetraedro es fundamental para entender la acción de los agentes extintores que actúan por <strong>inhibición química de la reacción en cadena</strong>. Extintores de polvo químico seco (PQS) y agentes limpios (como los halocarbonos) no solo enfrían o sofocan, sino que principalmente interfieren con los radicales libres, rompiendo el ciclo de la combustión y extinguiendo el fuego de manera más eficaz.</p>
+            <p>Para extinguir un fuego, es necesario romper al menos uno de los cuatro elementos del tetraedro.</p>
+        </section>
+
+        <!-- Sección 3: Tipos de Combustibles (con detalles técnicos) -->
+        <section id="tipos-combustibles">
+            <h2>Clasificación de Combustibles: ¿Qué Arde y Cómo se Comporta?</h2>
+            <p>Los combustibles se clasifican no solo por su estado físico, sino también por sus propiedades químicas, lo que es crucial para seleccionar el agente extintor adecuado y comprender su comportamiento en un incendio.</p>
+
+            <h3>3.1. Según su Estado Físico:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Combustibles Sólidos</h4>
+                    <p>Materiales con forma y volumen definidos. Para arder, deben descomponerse térmicamente (<strong>pirólisis</strong>) liberando vapores inflamables. La <strong>superficie específica</strong> (relación superficie/volumen) es clave: materiales con mayor superficie (ej. polvo, virutas) arden más rápido. Se queman de afuera hacia adentro y dejan residuos.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Madera, papel, tela, carbón, plásticos (PVC, polietileno, polipropileno), caucho. Son más peligrosos cuando están subdivididos o pulverizados.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Combustibles Líquidos</h4>
+                    <p>Sustancias que fluyen y toman la forma de su recipiente. No es el líquido en sí lo que arde, sino sus <strong>vapores</strong>. Propiedades clave incluyen el <strong>punto de inflamación (flash point)</strong>, <strong>punto de fuego (fire point)</strong> y la <strong>densidad de vapor</strong> (si es más denso que el aire, se acumulará en zonas bajas). Eliminan vapores inflamables.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Gasolina, diésel, alcohol, aceites, keroseno, pinturas, solventes (acetona, tolueno). Son más peligrosos cuando están derramados.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Combustibles Gaseosos</h4>
+                    <p>Sustancias sin forma ni volumen definidos, que se expanden para llenar cualquier contenedor. Son los más peligrosos debido a su rápida mezcla con el aire y la formación de <strong>mezclas explosivas</strong>. Su inflamabilidad se define por los <strong>límites de explosividad (LEL/UEL)</strong>. Se queman en toda su masa y ocupan todos los espacios.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Gas natural (metano), gas licuado de petróleo (GLP - propano/butano), hidrógeno, acetileno, monóxido de carbono. Son más peligrosos cuando están liberados.
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mt-10">3.2. Según su Comportamiento con el Agua (para Líquidos):</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Misibles en Agua (Polares)</h4>
+                    <p>Líquidos que se mezclan completamente con el agua, formando una solución homogénea. Su estructura molecular polar permite la formación de enlaces de hidrógeno con el agua. El agua puede diluir estos combustibles, reduciendo su concentración hasta un punto no inflamable.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Alcohol etílico (etanol), metanol, acetona, glicerina, isopropanol.
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2"><em>Consideración para extinción: Las espumas convencionales pueden ser destruidas por estos líquidos. Se requieren espumas especiales resistentes al alcohol (AR-AFFF).</em></p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>No Misibles en Agua (No Polares)</h4>
+                    <p>Líquidos que no se mezclan con el agua, formando capas separadas debido a su diferente densidad y polaridad. Generalmente son hidrocarburos, más ligeros que el agua, por lo que flotan sobre ella.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Gasolina, diésel, aceites lubricantes, keroseno, naftas, benceno, tolueno.
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2"><em>Consideración para extinción: El agua puede dispersar el líquido combustible y propagar el fuego. Se utilizan espumas formadoras de película acuosa (AFFF) para crear una barrera de vapor.</em></p>
+                </div>
+            </div>
+
+            <h3 class="mt-10">3.3. Según su Polaridad (para Líquidos):</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Polares</h4>
+                    <p>Moléculas con una distribución desigual de carga eléctrica, creando un momento dipolar. Esto les confiere afinidad por el agua y otros solventes polares. Son los mismos líquidos misibles en agua.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Alcoholes (etanol, metanol), acetona, ácido acético, éteres de bajo peso molecular.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>No Polares</h4>
+                    <p>Moléculas con una distribución uniforme de carga eléctrica. Carecen de afinidad por el agua y son hidrofóbicas. Son los mismos líquidos no misibles en agua.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Hidrocarburos (gasolina, diésel, aceites, benceno), tetracloruro de carbono, disulfuro de carbono.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Sección: Clases de Fuego -->
+        <section id="clases-fuego">
+            <h2>Clasificación de los Fuegos</h2>
+            <p>Los fuegos se han clasificado en diferentes tipos, de acuerdo a las características del material combustible y los agentes extintores más adecuados para combatirlos eficazmente.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Clase A</h4>
+                    <p>Fuegos de materiales combustibles sólidos comunes, que generalmente producen brasas y cenizas. La extinción se logra principalmente por enfriamiento.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Madera, papel, textiles, cauchos y plásticos termoestables (poliéster, poliuretano).
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Clase B</h4>
+                    <p>Fuegos de líquidos inflamables y/o combustibles, gases, grasas y plásticos termoplásticos. La extinción se basa en la sofocación de los vapores inflamables.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Gasolina, diésel, alcohol, GLP, aceites, grasas, PVC, Nylon.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Clase C</h4>
+                    <p>Esta categoría incluye los fuegos sobre instalaciones eléctricas, motores, o cualquier equipo eléctrico energizado. El agente extintor debe ser no conductor de electricidad.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Cortocircuitos, aparatos electrónicos, cableado bajo tensión.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Clase D</h4>
+                    <p>Fuegos de metales inflamables. Estos metales reaccionan violentamente con el agua y otros agentes comunes, por lo que requieren extintores especiales de polvo seco.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Magnesio, Sodio, Potasio, Circonio, Titanio.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Clase K</h4>
+                    <p>Fuegos que involucran grasas y aceites animales o vegetales utilizados en aparatos de cocción. Anteriormente parte de la Clase B, se separaron por la necesidad de agentes extintores específicos que actúan por saponificación.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> Aceites de cocina en freidoras industriales o domésticas, grasas de animales.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Sección: Cómo se Transmite el Calor -->
+        <section id="transmision-calor">
+            <h2>Cómo se Transmite el Calor en un Incendio</h2>
+            <p>El calor, uno de los componentes esenciales del triángulo del fuego, se propaga de diversas maneras, lo que es crucial para entender la extensión y el comportamiento de un incendio.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Radiación</h4>
+                    <p>Transferencia de calor a través de ondas electromagnéticas, sin necesidad de un medio físico. Es la forma principal en que el calor se propaga a distancia en un incendio.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> El calor que sientes de una fogata o del sol. En un incendio, el calor radiante de las llamas puede encender materiales cercanos sin contacto directo.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Conducción</h4>
+                    <p>Transferencia de calor por contacto directo entre partículas de un material. El calor se mueve de las zonas más calientes a las más frías a través del material.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> El mango de una sartén calentándose, el calor de una tubería caliente que se transmite a una pared adyacente.
+                    </div>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Convección</h4>
+                    <p>Transferencia de calor a través del movimiento de fluidos (líquidos o gases). En un incendio, los gases calientes y el humo ascienden, llevando el calor a otras áreas.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos:</strong> El aire caliente que sube de un radiador, la propagación del fuego a través de un hueco de escalera por el ascenso de gases calientes.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Sección: Productos de la Combustión y Peligros del Humo -->
+        <section id="productos-combustion">
+            <h2>Productos de la Combustión y Peligros del Humo</h2>
+            <p>La combustión produce diversos elementos, siendo el humo uno de los más peligrosos para el personal de bomberos y las víctimas.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Productos Principales</h4>
+                    <ul>
+                        <li><strong>Calor:</strong> Energía térmica liberada.</li>
+                        <li><strong>Luz:</strong> Emisión de energía en el espectro visible.</li>
+                        <li><strong>Gases:</strong> Productos gaseosos de la reacción, muchos tóxicos (CO, CO₂, HCN, etc.).</li>
+                        <li><strong>Humo:</strong> Mezcla de partículas sólidas y líquidas en suspensión, gases y vapores.</li>
+                        <li><strong>Sólidos no quemados:</strong> Residuos de la combustión incompleta (cenizas, hollín).</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>El Humo: Un Peligro Mortal</h4>
+                    <p>El humo es el producto más importante a considerar en las operaciones de reconocimiento y extinción, sin importar el material que se esté quemando. No existe un "humo bueno"; todos son tóxicos y mortales en poco tiempo de exposición.</p>
+                    <p>Reemplaza el oxígeno necesario para respirar, deposita compuestos semisólidos particulados en los pulmones y quema las vías aéreas al ser aspirado caliente.</p>
+                    <div class="example-box">
+                        <strong>Ejemplos de gases tóxicos en el humo:</strong> Monóxido de carbono (CO), ácido cianhídrico (HCN), dioxinas. Pequeños porcentajes de estos gases pueden ser letales en segundos.
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2">Recordar: solo tomamos el 21% de oxígeno del aire atmosférico. Cualquier reducción significativa es peligrosa.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Fuego sin Llama (con detalles técnicos) -->
+        <section id="fuego-sin-llama">
+            <h2>Fuego sin Llama: La Combustión Lenta</h2>
+            <p>No todo fuego se manifiesta con llamas visibles. Existe un tipo de combustión conocida como "fuego sin llama" o "combustión incandescente", que es un proceso de oxidación lenta que genera calor y luz, pero sin la presencia de una llama. Es crucial entenderlo porque, aunque menos espectacular, puede ser igualmente peligroso.</p>
+
+            <h3>¿Qué es el Fuego sin Llama?</h3>
+            <p>Es una forma de <strong>combustión heterogénea</strong> que ocurre en la superficie de un material sólido. El oxígeno reacciona directamente con el combustible en estado sólido o con sus vapores de pirólisis, pero a una <strong>velocidad de reacción insuficiente</strong> para generar una llama visible. Se caracteriza por un resplandor (incandescencia) y la emisión de humo y gases de combustión incompleta.</p>
+
+            <h3>Características y Riesgos:</h3>
+            <ul>
+                <li><strong>Generación de Calor:</strong> Aunque no haya llama, se produce calor significativo que puede ser suficiente para iniciar otros fuegos o causar quemaduras por contacto.</li>
+                <li><strong>Producción de Monóxido de Carbono (CO):</strong> Un riesgo primordial es la alta producción de monóxido de carbono (CO), un gas inodoro, incoloro y altamente tóxico, resultado de la combustión incompleta debido a la baja concentración de oxígeno o la baja temperatura.</li>
+                <li><strong>Re-ignición (Flashover/Backdraft):</strong> Un fuego sin llama puede transicionar a un fuego con llama si se le proporciona un aumento repentino de oxígeno (backdraft) o si la temperatura ambiente alcanza el punto de ignición de los gases (flashover).</li>
+                <li><strong>Detección Dificultosa:</strong> Al no haber llama, puede ser más difícil de detectar visualmente. Los detectores de humo son esenciales para identificar este tipo de combustión en sus etapas iniciales.</li>
+                <li><strong>Propagación Lenta pero Persistente:</strong> Puede arder durante horas o días en materiales densos, como balas de algodón o pilas de carbón, antes de manifestarse con llamas.</li>
+            </ul>
+
+            <h3>Ejemplos Comunes:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Brasas de Carbón</h4>
+                    <p>El carbón en una parrilla o chimenea que ya no tiene llamas, pero sigue al rojo vivo, es un ejemplo clásico de fuego sin llama. Emite calor radiante y grandes cantidades de CO.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Cigarrillos y Puros</h4>
+                    <p>La punta encendida de un cigarrillo o puro es una combustión sin llama que genera calor y ceniza, y puede encender otros materiales combustibles cercanos, como telas o papel.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Maderas o Telas en Descomposición Lenta</h4>
+                    <p>En ciertas condiciones de humedad y temperatura, materiales orgánicos pueden experimentar una oxidación lenta que produce calor y un resplandor tenue antes de que aparezca una llama, especialmente en acumulaciones.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Incendios Latentes en Aislamientos</h4>
+                    <p>En paredes, techos o suelos, materiales aislantes como la celulosa o la fibra de vidrio pueden arder sin llama por horas, produciendo humo y gases tóxicos antes de que el fuego se propague visiblemente a otras áreas.</p>
+                </div>
+            </div>
+            <p class="mt-6">La detección temprana de humo y la ventilación adecuada son vitales para prevenir los peligros asociados al fuego sin llama.</p>
+        </section>
+
+        <!-- Nueva Sección: Agentes Extintores -->
+        <section id="agentes-extintores">
+            <h2>Agentes Extintores: Herramientas para Combatir el Fuego</h2>
+            <p>Conocer los diferentes agentes extintores y sus propiedades es fundamental para seleccionar la herramienta adecuada en cada tipo de incendio, garantizando una extinción segura y efectiva.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Agua</h4>
+                    <p>Considerado el extintor universal, es el más efectivo para fuegos de Clase A (sólidos comunes) debido a su capacidad de enfriamiento. Actúa eliminando la fuente de calor.</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li><strong>Ventajas:</strong> Barata, efectiva, abundante, trabaja por enfriamiento.</li>
+                        <li><strong>Desventajas:</strong> Daña lo que no se quemó, complicado acarreo en grandes volúmenes, limitada a fuegos Clase A, conductora de electricidad (peligro en fuegos Clase C), puede dispersar líquidos inflamables (Clase B) y reaccionar con metales (Clase D).</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Espuma</h4>
+                    <p>Se obtiene por la combinación de agua, un agente espumógeno (emulsor) y aire. Es muy útil para fuegos Clase B, extinguiendo por enfriamiento y sofocación al crear una barrera sobre el combustible.</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li><strong>Ventajas:</strong> Similar al agua en algunas ventajas. Muy efectiva en fuegos Clase B (líquidos inflamables), dependiendo del porcentaje de emulsor, la burbuja será más o menos compacta y persistente.</li>
+                        <li><strong>Desventajas:</strong> Conductora de electricidad, requiere lanzas y equipos especiales, el mal uso puede reducir su efectividad. Las espumas convencionales no son aptas para líquidos polares (misibles en agua).</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Dióxido de Carbono (CO₂)</h4>
+                    <p>Es un gas inerte utilizado para reemplazar el oxígeno de la mezcla inflamable, actuando principalmente por sofocación. También tiene un efecto de enfriamiento secundario.</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li><strong>Ventajas:</strong> Barato, muy bueno para usar en electricidad (hasta 1000 voltios), no deja residuos sólidos, se evapora completamente, contaminante leve.</li>
+                        <li><strong>Desventajas:</strong> Se necesita mucha cantidad por unidad de superficie de fuego, en incendios de líquidos inflamables es efectivo pero requiere acercarse demasiado, no tiene llegada a distancia ni penetración en fuegos Clase A (extingue, pero deja las brasas), se disipa a $-79^{\circ}C$ (bajo cero), puede producir electricidad estática, puede hacerse conductor por encima de 1000 voltios.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Polvo Químico Seco (PQS)</h4>
+                    <p>Una gran variedad de sales o compuestos químicos estables que trabajan principalmente interrumpiendo la reacción química en cadena, captando los radicales libres y formando compuestos nuevos no inflamables.</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li><strong>Ventajas:</strong> Económicos, de fácil recarga, obligatorios por ley en muchos casos, útiles para fuegos Clase A, B y C, buena llegada a distancia, estables, no conductores hasta 1000 voltios (recomendación legal).</li>
+                        <li><strong>Desventajas:</strong> Corrosivos para metales, invasivos y densos (lo que dificulta la visibilidad y limpieza), se desnaturalizan en combinación con el agua.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h4>Acetato de Potasio</h4>
+                    <p>Agente extintor utilizado específicamente para fuegos Clase K (grasas y aceites de cocina). Se aplica como un polvo pulverizado que, al contacto con la llama, precipita en forma de jabón (saponificación), provocando la sofocación de las llamas.</p>
+                    <ul class="list-disc ml-6 mt-2">
+                        <li><strong>Ventajas:</strong> Muy efectivo en fuegos Clase K.</li>
+                        <li><strong>Desventajas:</strong> Uso limitado a fuegos Clase K, su efectividad para otras clases de fuego está en discusión y algunos laboratorios no lo recomiendan.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Sección 4: Consejos de Prevención y Seguridad -->
+        <section id="prevencion-seguridad">
+            <h2>¡La Prevención es Clave!</h2>
+            <p>Como bombero voluntario, sabes que la prevención es la herramienta más poderosa. Aquí te recordamos algunos consejos esenciales:</p>
+            <ul>
+                <li>Almacenar combustibles de forma segura y en recipientes adecuados, lejos de fuentes de ignición.</li>
+                <li>Mantener fuentes de calor (estufas, velas, aparatos eléctricos) lejos de materiales inflamables, respetando distancias de seguridad.</li>
+                <li>Ventilar adecuadamente los espacios donde se manipulan gases o vapores inflamables para evitar la acumulación de mezclas explosivas.</li>
+                <li>Conocer los tipos de extintores (agua, CO2, PQS, espuma) y su uso correcto para cada clase de fuego (Clase A, B, C, D, K).</li>
+                <li>Tener un plan de evacuación familiar o laboral y practicarlo regularmente, asegurando rutas de escape claras y puntos de encuentro.</li>
+                <li>Nunca dejar velas, estufas o aparatos de calefacción encendidos sin supervisión, especialmente durante la noche.</li>
+                <li>Revisar instalaciones eléctricas y de gas periódicamente por profesionales matriculados para detectar y corregir posibles fallas.</li>
+                <li>Instalar detectores de humo y monóxido de carbono en el hogar y en lugares de trabajo, y verificar su funcionamiento regularmente.</li>
+            </ul>
+        </section>
+
+        <!-- Sección 5: Recursos Adicionales -->
+        <section id="recursos-adicionales">
+            <h2>Recursos Adicionales</h2>
+            <p>Para seguir profundizando en el tema y mantenerte actualizado, te recomendamos los siguientes recursos:</p>
+            <ul>
+                <li><a href="https://www.bomberos.org.ar/" target="_blank">Consejo Nacional de Bomberos Voluntarios de la República Argentina</a></li>
+                <li><a href="https://www.argentina.gob.ar/defensacivil" target="_blank">Defensa Civil Argentina</a></li>
+                <li><a href="https://www.inti.gob.ar/" target="_blank">Instituto Nacional de Tecnología Industrial (INTI) - Seguridad contra Incendios</a></li>
+                <li><strong>Videos explicativos:</strong> Busca en plataformas como YouTube "Triángulo del Fuego" o "Tetraedro del Fuego" para ver animaciones y demostraciones prácticas.</li>
+            </ul>
+
+            <h3 class="mt-10">Preguntas Frecuentes (FAQ)</h3>
+            <dl class="space-y-4">
+                <div>
+                    <dt class="font-semibold text-blue-300">¿Cuál es la diferencia principal entre el triángulo y el tetraedro del fuego?</dt>
+                    <dd class="ml-4 text-gray-300">El triángulo del fuego describe los tres elementos básicos para iniciar un fuego (calor, combustible, oxígeno). El tetraedro añade un cuarto elemento, la "reacción en cadena", que explica cómo el fuego se mantiene y propaga una vez iniciado, siendo crucial para entender la acción de agentes químicos extintores.</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-blue-300">¿Por qué no se usa agua en todos los tipos de fuego?</dt>
+                    <dd class="ml-4 text-gray-300">El agua es efectiva para enfriar combustibles sólidos (Clase A). Sin embargo, puede ser peligrosa en fuegos de líquidos inflamables (Clase B) no misibles en agua, ya que puede dispersar el combustible y propagar el fuego, o causar "boilover". En fuegos eléctricos (Clase C), el agua es conductora y puede causar electrocución. En fuegos de metales (Clase D), puede reaccionar violentamente liberando hidrógeno. Y en fuegos de grasas de cocina (Clase K), puede causar una violenta expansión de vapor ("splashing").</dd>
+                </div>
+                <div>
+                    <dt class="font-semibold text-blue-300">¿Qué es el punto de inflamación y el punto de ignición?</dt>
+                    <dd class="ml-4 text-gray-300">El <strong>punto de inflamación (flash point)</strong> es la temperatura mínima a la que un líquido desprende vapores en cantidad suficiente para formar una mezcla inflamable con el aire, que se encenderá brevemente al aplicar una fuente de ignición. El <strong>punto de fuego (fire point)</strong> es la temperatura a la que el líquido desprende vapores suficientes para mantener la combustión continua. El <strong>punto de ignición (ignition temperature)</strong> es la temperatura mínima a la que un material se encenderá y continuará ardiendo espontáneamente, sin necesidad de una fuente de ignición externa.</dd>
+                </div>
+            </dl>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Fundamentos del Fuego. Creado para la comunidad de bomberos voluntarios.</p>
+            <p class="text-sm mt-2">¡La seguridad es responsabilidad de todos!</p>
+        </div>
+    </footer>
+
+    <!-- Script para la inicialización de Three.js y la interactividad 3D -->
+    <script>
+        // Function to create and animate a 3D scene (Triangle or Tetrahedron)
+        function createFireModel(canvasId, containerId, labelsContainerId, elementsData) {
+            const container = document.getElementById(containerId);
+            const canvas = document.getElementById(canvasId);
+            const labelsContainer = document.getElementById(labelsContainerId);
+
+            let scene, camera, renderer, controls;
+            const objects = []; // To store interactive 3D objects (components)
+            const labels = {}; // To store HTML label elements
+            let fireMesh, fireLight; // Elements to represent the fire
+
+            // Initialize the scene
+            function init() {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+
+                // Set camera position
+                camera.position.set(0, 0, elementsData.cameraZ);
+
+                // Orbit controls for camera interaction
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true; // For smoother movement
+                controls.dampingFactor = 0.05;
+                controls.screenSpacePanning = false;
+                controls.minDistance = 5;
+                controls.maxDistance = 20;
+
+                // Lights for the general scene
+                const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft ambient light
+                scene.add(ambientLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional light
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
+
+                // --- Main Geometry (Triangle or Tetrahedron Outline) ---
+                let mainGeometry;
+                let mainMesh;
+                const outlineMaterial = new THREE.LineBasicMaterial({ color: 0x90cdf4, linewidth: 3 }); // Light blue for outline
+
+                if (elementsData.type === 'triangle') {
+                    // Create a flat triangle geometry for the Fire Triangle
+                    const vertices = new Float32Array([
+                        0.0, 1.5, 0.0,   // Top vertex (Calor)
+                        -1.5, -0.75, 0.0, // Bottom-left vertex (Combustible)
+                        1.5, -0.75, 0.0,   // Bottom-right vertex (Oxígeno)
+                        0.0, 1.5, 0.0    // Close the loop
+                    ]);
+                    mainGeometry = new THREE.BufferGeometry();
+                    mainGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                    mainMesh = new THREE.LineSegments(mainGeometry, outlineMaterial); // Use LineSegments for clarity
+                } else if (elementsData.type === 'tetrahedron') {
+                    // Create a 3D tetrahedron wireframe for the Fire Tetrahedron
+                    mainGeometry = new THREE.TetrahedronGeometry(2.5); // Radius of the tetrahedron
+                    const wireframe = new THREE.WireframeGeometry(mainGeometry);
+                    mainMesh = new THREE.LineSegments(wireframe, outlineMaterial);
+                }
+                scene.add(mainMesh);
+
+                // --- Fire Visualization (pulsing cone and light) ---
+                fireGeometry = new THREE.ConeGeometry(0.5, 1.5, 32); // Radius, height, segments for flame shape
+                fireMaterial = new THREE.MeshBasicMaterial({
+                    color: 0xffa500, // Orange/yellow color for fire
+                    transparent: true,
+                    opacity: 0.0, // Starts invisible
+                    blending: THREE.AdditiveBlending // Makes it glow
+                });
+                fireMesh = new THREE.Mesh(fireGeometry, fireMaterial);
+                fireMesh.position.y = -0.5; // Position it slightly below center to look like it's coming from the base
+                scene.add(fireMesh);
+
+                fireLight = new THREE.PointLight(0xffa500, 0, 50); // Point light, starts with intensity 0
+                fireMesh.add(fireLight); // Light moves with the flame mesh
+
+                // --- Components (spheres at vertices) ---
+                const componentGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+                // Material for active components
+                const activeComponentMaterial = new THREE.MeshPhongMaterial({ color: 0x63b3ed, shininess: 80 });
+                // Material for inactive components
+                const inactiveComponentMaterial = new THREE.MeshPhongMaterial({ color: 0x4a5568, shininess: 80 });
+
+                elementsData.positions.forEach(data => {
+                    const mesh = new THREE.Mesh(componentGeometry, activeComponentMaterial.clone()); // Clone material for individual changes
+                    mesh.position.set(data.x, data.y, data.z);
+                    mesh.userData = { name: data.name, isActive: true }; // Add 'isActive' state
+                    scene.add(mesh);
+                    objects.push(mesh);
+
+                    // Create HTML label for the element
+                    const labelDiv = document.createElement('div');
+                    labelDiv.className = 'label active'; // Starts with 'active' class
+                    labelDiv.textContent = data.name;
+                    labelsContainer.appendChild(labelDiv);
+                    labels[data.name] = labelDiv;
+                });
+
+                // Function to update fire state based on component activity
+                function updateFireState() {
+                    const allActive = objects.every(obj => obj.userData.isActive);
+                    if (allActive) {
+                        // Fire active: visible and emits light
+                        fireMaterial.opacity = 0.8;
+                        fireLight.intensity = 2;
+                    } else {
+                        // Fire inactive: fades out
+                        fireMaterial.opacity = 0.0;
+                        fireLight.intensity = 0;
+                    }
+                }
+
+                // Initial update of fire state
+                updateFireState();
+
+                // Raycaster to detect interaction with 3D objects
+                const raycaster = new THREE.Raycaster();
+                const mouse = new THREE.Vector2();
+                let intersectedObject = null;
+
+                // Mouse events for interaction
+                canvas.addEventListener('mousemove', onMouseMove, false);
+                canvas.addEventListener('click', onClick, false);
+
+                function onMouseMove(event) {
+                    event.preventDefault();
+                    // Calculate mouse position in normalized coordinates (-1 to +1)
+                    const rect = canvas.getBoundingClientRect();
+                    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+                    raycaster.setFromCamera(mouse, camera);
+                    const intersects = raycaster.intersectObjects(objects);
+
+                    if (intersects.length > 0) {
+                        if (intersectedObject != intersects[0].object) {
+                            if (intersectedObject) {
+                                // Restore color of the previous object if not active
+                                if (intersectedObject.userData.isActive) {
+                                    intersectedObject.material.color.set(activeComponentMaterial.color.getHex());
+                                } else {
+                                    intersectedObject.material.color.set(inactiveComponentMaterial.color.getHex());
+                                }
+                                // Restore label background
+                                if (labels[intersectedObject.userData.name].classList.contains('active')) {
+                                    labels[intersectedObject.userData.name].style.backgroundColor = 'rgba(252, 165, 165, 0.9)';
+                                } else {
+                                    labels[intersectedObject.userData.name].style.backgroundColor = 'rgba(45, 55, 72, 0.8)';
+                                }
+                            }
+                            intersectedObject = intersects[0].object;
+                            // Change color of the current object on hover
+                            intersectedObject.material.color.set(0xfca5a5); // Light red to highlight
+                            labels[intersectedObject.userData.name].style.backgroundColor = 'rgba(255, 120, 120, 0.9)'; // Red background for the label
+                        }
+                    } else {
+                        if (intersectedObject) {
+                            // Restore color if no intersection
+                            if (intersectedObject.userData.isActive) {
+                                intersectedObject.material.color.set(activeComponentMaterial.color.getHex());
+                            } else {
+                                intersectedObject.material.color.set(inactiveComponentMaterial.color.getHex());
+                            }
+                            // Restore label background
+                            if (labels[intersectedObject.userData.name].classList.contains('active')) {
+                                labels[intersectedObject.userData.name].style.backgroundColor = 'rgba(252, 165, 165, 0.9)';
+                            } else {
+                                labels[intersectedObject.userData.name].style.backgroundColor = 'rgba(45, 55, 72, 0.8)';
+                            }
+                        }
+                        intersectedObject = null;
+                    }
+                }
+
+                function onClick(event) {
+                    event.preventDefault();
+                    const rect = canvas.getBoundingClientRect();
+                    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+                    raycaster.setFromCamera(mouse, camera);
+                    const intersects = raycaster.intersectObjects(objects);
+
+                    if (intersects.length > 0) {
+                        const clickedObject = intersects[0].object;
+                        clickedObject.userData.isActive = !clickedObject.userData.isActive; // Toggle state
+
+                        // Update visual representation of the component
+                        if (clickedObject.userData.isActive) {
+                            clickedObject.material.color.set(activeComponentMaterial.color.getHex()); // Active color
+                            labels[clickedObject.userData.name].classList.add('active');
+                        } else {
+                            clickedObject.material.color.set(inactiveComponentMaterial.color.getHex()); // Inactive color (darker)
+                            labels[clickedObject.userData.name].classList.remove('active');
+                        }
+
+                        updateFireState(); // Update fire based on component states
+                    }
+                }
+
+                // Handle window resizing
+                window.addEventListener('resize', onWindowResize, false);
+            }
+
+            // Animation function
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update orbit controls
+
+                // Animate fire if active
+                if (fireMaterial.opacity > 0) {
+                    const time = performance.now() * 0.005;
+                    const scaleFactor = 1 + Math.sin(time * 5) * 0.1; // Pulsing scale
+                    fireMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+                    fireMaterial.opacity = 0.6 + Math.sin(time * 7) * 0.2; // Pulsing opacity
+                    fireLight.intensity = 2 + Math.sin(time * 6) * 1; // Pulsing light
+                }
+
+
+                // Update position of HTML labels
+                objects.forEach(obj => {
+                    const vector = new THREE.Vector3();
+                    obj.getWorldPosition(vector); // Get 3D position of the object
+                    vector.project(camera); // Project to screen coordinates
+
+                    const x = (vector.x * 0.5 + 0.5) * container.clientWidth;
+                    const y = (-vector.y * 0.5 + 0.5) * container.clientHeight;
+
+                    const label = labels[obj.userData.name];
+                    label.style.left = `${x}px`;
+                    label.style.top = `${y}px`;
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            // Function to handle resizing
+            function onWindowResize() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+
+            // Initialize the scene
+            init();
+            animate();
+        }
+
+        // Data for the Fire Triangle
+        const trianguloElements = {
+            type: 'triangle',
+            cameraZ: 7, // Adjust camera distance
+            positions: [
+                { x: 0, y: 1.5, z: 0, name: 'Calor' },
+                { x: -1.5, y: -0.75, z: 0, name: 'Combustible' },
+                { x: 1.5, y: -0.75, z: 0, name: 'Oxígeno' }
+            ]
+        };
+
+        // Data for the Fire Tetrahedron
+        const tetraedroElements = {
+            type: 'tetrahedron',
+            cameraZ: 7, // Adjust camera distance
+            positions: [
+                { x: 0, y: 1.8, z: 0, name: 'Calor' },
+                { x: -1.5, y: -1.0, z: 1.0, name: 'Combustible' },
+                { x: 1.5, y: -1.0, z: 1.0, name: 'Oxígeno' },
+                { x: 0, y: -1.0, z: -1.8, name: 'Reacción en Cadena' }
+            ]
+        };
+
+        // Initialize 3D models when the window loads
+        window.onload = function() {
+            createFireModel('triangulo-canvas', 'triangulo-canvas-container', 'triangulo-labels', trianguloElements);
+            createFireModel('tetraedro-canvas', 'tetraedro-canvas-container', 'tetraedro-labels', tetraedroElements);
+        };
+    </script>
+</body>
+</html>

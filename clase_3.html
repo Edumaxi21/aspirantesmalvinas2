@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 3: Leyes y Proyectos</title>
+    <!-- 1. CAMBIA AL NUEVO ARCHIVO DE ESTILOS -->
+    <link rel="stylesheet" href="clase_styles.css">
+</head>
+<body>
+    <!-- 2. AGREGA EL CONTENEDOR PARA EL FONDO -->
+    <div id="particles-js"></div>
+
+    <div class="class-container">
+        
+        <h5>Ley Nacional 25.054 (Bomberos Voluntarios)</h5>
+                <p>Sancionada el 10 de diciembre de 1998. Regula la organización y misión de los bomberos voluntarios en Argentina.</p>
+                <ul>
+                    <li><strong>Objetivos:</strong>
+                        <ul>
+                            <li>Establecer un subsidio nacional.</li>
+                            <li>Reconocer el servicio público de los bomberos voluntarios.</li>
+                            <li>Brindar apoyo económico para capacitación y equipamiento.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Beneficios:</strong>
+                        <ul>
+                            <li>Puntaje especial en planes de viviendas del Estado.</li>
+                            <li>Atención prioritaria en salud pública por alteraciones de salud debido a la actividad bomberil.</li>
+                            <li>Considerados movilizados en emergencias (situación laboral es carga pública para empleadores).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Exenciones:</strong>
+                        <ul>
+                            <li>Exentos de impuestos nacionales, derechos y tasas aduaneras.</li>
+                            <li>Fondos y bienes inembargables e inejecutables.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Administración del Subsidio:</strong> Dirección Nacional de Defensa Civil (Secretaría de Seguridad Interior, Ministerio del Interior).</li>
+                </ul>
+
+                <h5>Ley Nacional 23.139</h5>
+                <p>Sancionada el 30 de septiembre de 1984. Otorga beneficios a Sociedades de Bomberos Voluntarios.</p>
+                <ul>
+                    <li><strong>Artículo 1°:</strong> Beneficiarias son todas las entidades sin fines de lucro dedicadas a la protección de la población en incendios y/o accidentes (Sociedades de Bomberos Voluntarios).</li>
+                    <li><strong>Artículo 2°:</strong> Exención del pago de impuestos nacionales.</li>
+                    <li><strong>Artículo 3°:</strong> Invita a provincias y municipalidades a extender este beneficio.</li>
+                </ul>
+
+                <h5>Ley Provincial 10.917 (Provincia de Buenos Aires)</h5>
+                <p>Sancionada el 31 de mayo de 1990. Regula organización y funcionamiento de asociaciones de bomberos voluntarios en la provincia.</p>
+                <ul>
+                    <li><strong>Aspectos Principales:</strong>
+                        <ul>
+                            <li>Deben constituirse como personas jurídicas de bien público sin fines de lucro.</li>
+                            <li>El Coordinador General de Defensa Civil de la Provincia autoriza su funcionamiento.</li>
+                            <li>Deben denominarse con el nombre del partido, ciudad o localidad de su cuartel central.</li>
+                            <li>Federaciones de asociaciones son entidades de segundo grado que representan a las asociaciones.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Funciones de los Bomberos Voluntarios (según esta ley):</strong>
+                        <ul>
+                            <li>Prevención, extinción e investigación de incendios.</li>
+                            <li>Rescate y salvamento de personas y bienes.</li>
+                            <li>Acción educativa de la comunidad para la prevención.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><em>Resumen basado en "CLASE 3 ley 20.054 - Ley 10.917 y decretos dc.pdf". (Nota: La ley nacional es la 25.054, no 20.054 como se menciona en una parte del PDF).</em></p>
+
+        <div class="navigation-buttons">
+            <a href="index.html?evaluar=1" class="nav-button eval-button">Iniciar Evaluación</a>
+            <a href="index.html" class="nav-button menu-button">Volver al Menú</a>
+        </div>
+    </div>
+
+    <!-- 3. AGREGA LOS SCRIPTS PARA EL FONDO ANIMADO -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializa particles.js en esta página
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#ffffff", "#ff4d4d", "#ff6666"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>

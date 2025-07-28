@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 7: Parte de Servicios</title>
+    <!-- 1. CAMBIA AL NUEVO ARCHIVO DE ESTILOS -->
+    <link rel="stylesheet" href="clase_styles.css">
+</head>
+<body>
+    <!-- 2. AGREGA EL CONTENEDOR PARA EL FONDO -->
+    <div id="particles-js"></div>
+
+    <div class="class-container">
+
+        <summary>Resumen y Datos Clave (Clase 7: Parte de Servicios)</summary>
+                <h5>Clasificación de Servicios (Recordatorio)</h5>
+                <p>Los servicios se clasifican en once grupos (01 a 11): Incendio, Auxilio, Especiales, Desastres, Colaboraciones, Guardia, Comando, Técnico, Ceremonial, Materiales Peligrosos, Forestales.</p>
+
+                <h5>El Parte de Servicio</h5>
+                <ul>
+                    <li><strong>Definición:</strong> Planilla (física o virtual) con campos a rellenar y listado del cuerpo activo.</li>
+                    <li><strong>Confección:</strong> Realizada por el personal a cargo de la dotación una vez finalizado el servicio.</li>
+                    <li><strong>Contenido:</strong> Vuelca datos suministrados por el furriel y el cuartelero. Incorpora cronológicamente lo acontecido en el servicio hasta el retorno de la unidad al cuartel.</li>
+                    <li><strong>Importancia:</strong> Documentación de servicios prestados es parte de la responsabilidad legal.</li>
+                </ul>
+
+                <h5>Información Incluida en el Parte de Servicio:</h5>
+                <ul>
+                    <li>Horarios (salida, llegada al lugar, regreso al cuartel, etc.).</li>
+                    <li>Personal interviniente (nombre, legajo).</li>
+                    <li>Personal a cargo (Jefe de Servicio, Jefe de Dotación).</li>
+                    <li>Cantidad y tipo de móviles utilizados.</li>
+                    <li>Víctimas / Ilesos (cantidad, datos si es posible).</li>
+                    <li>Autor de la llamada (nombre, teléfono, dirección si es posible).</li>
+                    <li>Estado de la situación al momento de la llegada de la primera dotación.</li>
+                    <li>Disposiciones tomadas por el responsable a cargo del servicio.</li>
+                    <li>Desarrollo cronológico del servicio (tareas realizadas, novedades).</li>
+                    <li>Materiales utilizados.</li>
+                    <li>Observaciones relevantes.</li>
+                </ul>
+
+                <h5>Fines del Parte de Servicio:</h5>
+                <ul>
+                    <li><strong>Legales:</strong> Como prueba o registro ante requerimientos judiciales.</li>
+                    <li><strong>Administrativos:</strong> Para la gestión interna del cuartel.</li>
+                    <li><strong>Seguros:</strong> Para trámites con compañías aseguradoras (de la institución o de terceros).</li>
+                    <li><strong>Estadísticas:</strong>
+                        <ul>
+                            <li>Ayudan a la gestión de recursos (personal, equipos).</li>
+                            <li>Requeridas por Federaciones y el Consejo Nacional de Bomberos.</li>
+                            <li>Necesarias para representar a los bomberos ante los poderes públicos.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>Obligatoriedad:</strong> La confección del Parte de Servicio es <strong>obligatoria</strong>.</p>
+                <p><strong>Parte Tipo:</strong> Se aprobó un Parte tipo para ser utilizado por todos los cuerpos de bomberos de la federación para facilitar la recopilación de datos, aunque cada institución puede tener documentos adicionales.</p>
+                <p><em>Resumen basado en "CLASE 7.pdf".</em></p>
+
+        <div class="navigation-buttons">
+            <a href="index.html?evaluar=1" class="nav-button eval-button">Iniciar Evaluación</a>
+            <a href="index.html" class="nav-button menu-button">Volver al Menú</a>
+        </div>
+    </div>
+
+    <!-- 3. AGREGA LOS SCRIPTS PARA EL FONDO ANIMADO -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializa particles.js en esta página
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#ffffff", "#ff4d4d", "#ff6666"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>

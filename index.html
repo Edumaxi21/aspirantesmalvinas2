@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Estudio: Aspirantes a Bomberos</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+    <!-- Contenedor para el fondo animado -->
+    <div id="particles-js"></div>
+
+    <!-- Menú Principal de Clases -->
+    <div id="main-menu">
+        <header class="main-header">
+            <div class="logo">
+                <i class="fas fa-fire-extinguisher"></i>
+                <span>Aspirantes Malvinas Argentinas 166</span>
+            </div>
+            <nav class="main-nav">
+                <a href="https://drive.google.com/drive/folders/1N7rWK6zXRNCNvKKsD5CGdGxJySTVn9aB?usp=sharing" target="_blank">
+                    <i class="fab fa-google-drive"></i> Materiales
+                </a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="intro-text">
+                <h1>Módulos de Capacitación</h1>
+                <p>Selecciona una clase para ver el resumen y comenzar la evaluación.</p>
+            </div>
+            <div class="class-grid">
+                <!-- Las tarjetas de clase se generarán aquí con JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Contenedor para la Evaluación -->
+    <div class="main-container" id="evaluation-container" style="display:none;">
+        <h1>Evaluación</h1>
+        
+        <div id="game-area" style="display:none;">
+            <a href="index.html" class="back-to-menu-button">Volver al Menú</a>
+            <div id="question-container">
+                <p id="question-number"></p>
+                <h2 id="question-text"></h2>
+            </div>
+            <input type="text" id="answer-input" placeholder="Escribe tu respuesta aquí" style="display:none;">
+            <div id="multiple-choice-options"></div>
+            <button id="submit-button" style="display:none;">Enviar Respuesta</button>
+            <div id="feedback-area"><p id="feedback-text"></p><p id="correct-answer-text"></p></div>
+            <button id="next-button" style="display:none;">Siguiente Pregunta</button>
+        </div>
+
+        <div id="score-area" style="display:none;"><p>Puntaje: <span id="score">0</span></p></div>
+
+        <div id="results-area" style="display:none;">
+            <h2>Evaluación Terminada</h2>
+            <p>Tu puntaje final es: <span id="final-score"></span> de <span id="total-questions-played"></span></p>
+            <a href="index.html" class="restart-button">Volver al Menú Principal</a>
+        </div>
+    </div>
+
+    <!-- Librería para el fondo animado -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Tu script principal -->
+    <script src="index.js"></script>
+</body>
+</html>

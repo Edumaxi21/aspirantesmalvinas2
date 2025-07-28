@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 14: Riesgo Eléctrico</title>
+    <link rel="stylesheet" href="clase_styles.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="class-container">
+        <h1>Clase 14: Riesgo Eléctrico</h1>
+        <img src="https://i.imgur.com/3h2Y2Bw.png" alt="Símbolo de riesgo eléctrico" style="width:100%; max-width:450px; height:auto; margin:10px auto; border-radius:8px; display:block;">
+        
+        <h4>1. Fundamentos de la Electricidad</h4>
+        <p>La electricidad es el flujo de electrones a través de un material. Para entender sus riesgos, es crucial conocer sus componentes básicos y cómo se clasifican los materiales.</p>
+        <ul>
+            <li><strong>El Átomo:</strong> Compuesto por protones (carga +), neutrones (sin carga) y electrones (carga -). El movimiento de los <strong>electrones de valencia</strong> (los de la última órbita) genera la corriente eléctrica.</li>
+            <li><strong>Conductores:</strong> Materiales que permiten fácilmente el flujo de electrones (ej. metales como cobre, oro, plata y el agua). Tienen de 1 a 3 electrones de valencia.</li>
+            <li><strong>Aislantes:</strong> Materiales que se oponen al flujo de electrones (ej. goma, vidrio, madera seca, plástico). Tienen de 6 a 7 electrones de valencia.</li>
+            <li><strong>Variables Eléctricas (Ley de Ohm):</strong>
+                <ul>
+                    <li><strong>Tensión (Voltaje - V):</strong> La "presión" que empuja los electrones.</li>
+                    <li><strong>Corriente (Amperaje - A):</strong> La cantidad de electrones que fluyen. <strong>Es el factor más peligroso para el cuerpo humano.</strong></li>
+                    <li><strong>Resistencia (Ohm - Ω):</strong> La oposición al paso de la corriente.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>2. El Camino de la Electricidad y Niveles de Tensión</h4>
+        <p>La energía eléctrica viaja desde su punto de creación hasta nuestros hogares, transformando su tensión en el proceso.</p>
+        <ul>
+            <li><strong>Generación, Transmisión y Distribución:</strong> La electricidad se genera en centrales, se transmite a muy alta tensión para minimizar pérdidas y se distribuye a las ciudades, donde se reduce la tensión para su uso.</li>
+            <li><strong>Niveles de Tensión en Argentina:</strong>
+                <ul>
+                    <li><strong>Alta Tensión:</strong> 500.000 V, 220.000 V, 132.000 V. Se identifica por grandes torres metálicas y largas cadenas de aisladores.</li>
+                    <li><strong>Media Tensión:</strong> 33.000 V, 13.200 V. Se distribuye en postes de hormigón o madera con aisladores de porcelana o vidrio de tamaño considerable.</li>
+                    <li><strong>Baja Tensión:</strong> 380 V (trifásica) y 220 V (monofásica). Es la que llega a los domicilios, con cables preensamblados y aisladores pequeños (roldanas).</li>
+                </ul>
+            </li>
+            <li><strong>¡ADVERTENCIA!</strong> Queda terminantemente prohibido para el personal de bomberos realizar trabajos en instalaciones de <strong>Media y Alta Tensión</strong>.</li>
+        </ul>
+
+        <h4>3. Efectos de la Electricidad en el Cuerpo Humano</h4>
+        <p>El cuerpo humano, compuesto en un 70% por agua, es un buen conductor. La gravedad de un accidente eléctrico depende de la intensidad, el tiempo de exposición y el recorrido de la corriente.</p>
+        <ul>
+            <li><strong>Tetanización:</strong> Contracción muscular incontrolable que impide soltar el conductor energizado. Ocurre a partir de los 10 mA.</li>
+            <li><strong>Asfixia:</strong> Si la corriente atraviesa el tórax, puede paralizar los músculos respiratorios.</li>
+            <li><strong>Fibrilación Ventricular:</strong> El efecto más peligroso. Una corriente que atraviesa el corazón (a partir de 40-100 mA) altera su ritmo, provocando un paro cardíaco. Es la principal causa de muerte por electrocución.</li>
+            <li><strong>Quemaduras:</strong> La corriente genera calor al pasar por el cuerpo, causando quemaduras internas (a menudo más graves de lo que parecen) y externas por contacto o arco eléctrico.</li>
+        </ul>
+
+        <h4>4. Trabajo Eléctrico Seguro en Baja Tensión</h4>
+        <p>Para intervenir de forma segura, es fundamental seguir un protocolo estricto y utilizar el Equipo de Protección Personal (EPP) adecuado.</p>
+        <ul>
+            <li><strong>EPP Específico:</strong>
+                <ul>
+                    <li><strong>Guantes Dieléctricos:</strong> Aislantes para baja tensión (hasta 500V). Deben ser inspeccionados antes de cada uso (prueba de inflado).</li>
+                    <li><strong>Guantes de Vaqueta:</strong> Se usan sobre los dieléctricos para protegerlos de daños mecánicos (cortes, pinchazos).</li>
+                    <li><strong>Máscara Antideflagración:</strong> Protege rostro y cuello de arcos eléctricos.</li>
+                    <li><strong>Detector de Tensión sin Contacto:</strong> Herramienta tipo lápiz para verificar la presencia de tensión en un conductor sin tocarlo.</li>
+                    <li><strong>Alicate Aislado (1000V):</strong> Para realizar cortes de manera segura.</li>
+                </ul>
+            </li>
+            <li><strong>Procedimiento de Corte de Suministro Domiciliario:</strong>
+                <ol>
+                    <li>Verificar el buen funcionamiento del detector en una fuente con tensión conocida.</li>
+                    <li>Verificar la ausencia de tensión en el lugar a intervenir. <strong>¡Atención! El detector solo marca tensión en las fases, no en el neutro.</strong></li>
+                    <li>Realizar el corte de los cables de acometida, siempre de a uno por vez.</li>
+                </ol>
+            </li>
+            <li><strong>Corte de Suministro en Vehículos:</strong> Para evitar cortocircuitos, el orden correcto es cortar primero el cable <strong>negativo (-)</strong> y luego el <strong>positivo (+)</strong>.</li>
+        </ul>
+
+        <h4>5. Distancias Mínimas de Seguridad</h4>
+        <p>Respetar las distancias es vital para evitar arcos eléctricos, especialmente en media y alta tensión.</p>
+        <ul>
+            <li>Hasta 1 kV (1.000 V): <strong>0.80 metros</strong>.</li>
+            <li>De 1 kV a 33 kV: <strong>0.80 metros</strong>.</li>
+            <li>De 33 kV a 66 kV: <strong>0.90 metros</strong>.</li>
+            <li>De 66 kV a 132 kV: <strong>1.50 metros</strong>.</li>
+        </ul>
+        <p><em>Resumen basado en los documentos "Curso Riesgo electrico CTC 2021.pptx.pdf" y "Riesgo Electrico - MR.pdf".</em></p>
+
+        <div class="navigation-buttons">
+            <a href="index.html?evaluar=14" class="nav-button eval-button">Iniciar Evaluación</a>
+            <a href="index.html" class="nav-button menu-button">Volver al Menú</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#ffffff", "#ff4d4d", "#ff6666"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true } },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>
